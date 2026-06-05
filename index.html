@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ashiruna B. Lutachuzibwa | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --cream: #f5f0e8;
+    --warm: #e8dfc8;
+    --gold: #c9a84c;
+    --gold-light: #f0d97a;
+    --rust: #b85c38;
+    --sage: #4a6741;
+    --slate: #3a4a5c;
+    --muted: #7a7060;
+    --white: #fefcf8;
+    --card: #fffdf7;
+    --radius: 12px;
+    --shadow: 0 4px 32px rgba(15,14,13,0.10);
+    --shadow-lg: 0 8px 64px rgba(15,14,13,0.16);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  /* ── NAV ── */
+  nav {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; /* Inahakikisha inachukua upana wa skrini tu */
+  box-sizing: border-box; /* Hii inazuia padding isitanue bar nje ya skrini */
+  z-index: 100;
+  background: transparent;
+  backdrop-filter: blur(12px); /* Zilizoacha kujirudia zimefutwa */
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  padding: 0 5vw; 
+  height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900; 
+  font-size: 1.2rem;
+  color: var(--gold); 
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.nav-links { 
+  display: flex; 
+  gap: 2rem; 
+  list-style: none; 
+}
+
+.nav-links a {
+  text-decoration: none; 
+  color: var(--ink);
+  font-size: 0.88rem; 
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { 
+  color: var(--gold); 
+}
+
+.nav-toggle { 
+  display: none; 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+}
+
+.nav-toggle span {
+  display: block; 
+  width: 24px; 
+  height: 2px;
+  background: var(--ink); 
+  margin: 5px 0; 
+  transition: 0.3s;
+}
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 180px 5vw 60px;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--warm) 100%);
+    position: relative; overflow: scroll;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; top: -120px; right: -80px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,103,65,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-welcome {
+    font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1.08;
+    text-align: center; color: var(--ink);
+    animation: fadeUp 0.7s 0.15s ease both;
+    opacity: 0;
+  }
+  .hero-name span { color: var(--gold); }
+  .hero-title {
+    margin-top: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--slate); font-weight: 400; text-align: center;
+    animation: fadeUp 0.7s 0.3s ease both; opacity: 0;
+  }
+  .hero-desc {
+    max-width: 640px; text-align: center; margin-top: 1.5rem;
+    color: var(--muted); font-size: 1rem; line-height: 1.8;
+    animation: fadeUp 0.7s 0.45s ease both; opacity: 0;
+  }
+  .hero-photos {
+    display: flex; gap: 1.2rem; margin-top: 2.8rem; justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.6s ease both; opacity: 0;
+  }
+  .hero-photo {
+    width: 110px; height: 110px; border-radius: 50%;
+    background: var(--warm);
+    border: 3px solid var(--gold);
+    overflow: hidden; position: relative;
+    box-shadow: 0 6px 24px rgba(201,168,76,0.25);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-photo:hover { transform: scale(1.08) translateY(-4px); box-shadow: 0 12px 36px rgba(201,168,76,0.4); }
+  .hero-photo-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rust) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900; color: white;
+    transition: transform 0.6s ease;
+  }
+  .hero-photo:hover .hero-photo-inner { transform: rotate(360deg); }
+  .hero-photo.active-photo {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 4px rgba(184,92,56,0.25), 0 8px 32px rgba(201,168,76,0.3);
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.75s ease both; opacity: 0;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.8rem; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; cursor: pointer; border: none;
+    transition: all 0.25s ease; white-space: nowrap;
+  }
+  .btn-primary { background: var(--gold); color: var(--ink); }
+  .btn-primary:hover { background: var(--rust); color: white; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184,92,56,0.3); }
+  .btn-outline { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+  .btn-outline:hover { background: var(--ink); color: var(--cream); transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
+  .btn-ghost:hover { background: var(--gold); color: var(--ink); transform: translateY(-2px); }
+
+  /* ── SECTIONS ── */
+  section { padding: 90px 5vw; }
+  section:nth-child(even) { background: var(--white); }
+  .section-label {
+    font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900;
+    color: var(--ink); margin-bottom: 2.5rem; line-height: 1.2;
+  }
+  .section-title span { color: var(--gold); }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .skill-tag {
+    background: var(--warm); color: var(--slate);
+    padding: 0.35rem 0.9rem; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 500; border: 1px solid rgba(201,168,76,0.3);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { background: var(--gold); color: var(--ink); }
+  .info-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 1.8rem; box-shadow: var(--shadow);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .info-row { display: flex; gap: 0.8rem; margin-bottom: 1rem; font-size: 0.9rem; }
+  .info-row:last-child { margin-bottom: 0; }
+  .info-row .label { font-weight: 600; color: var(--gold); min-width: 100px; }
+  .info-row .val { color: var(--muted); }
+
+  /* ── EDUCATION ── */
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .tl-item {
+    position: relative; margin-bottom: 2.2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .tl-dot {
+    position: absolute; left: -2.1rem; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--gold); border: 3px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .tl-year {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 0.2rem;
+  }
+  .tl-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+  .tl-sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.2rem; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; }
+  .project-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 2rem; box-shadow: var(--shadow);
+    border: 1px solid rgba(201,168,76,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--rust));
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .project-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--gold), var(--rust));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+  }
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.6rem;
+  }
+  .project-desc { color: var(--muted); font-size: 0.9rem; flex: 1; margin-bottom: 1.5rem; }
+  .project-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    background: var(--gold); color: var(--ink);
+    padding: 0.65rem 1.4rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.88rem; text-decoration: none;
+    transition: all 0.25s; width: fit-content; border: none; cursor: pointer;
+  }
+  .project-btn:hover { background: var(--rust); color: white; transform: translateX(3px); }
+  .project-badge {
+    display: inline-block; font-size: 0.75rem; font-weight: 600;
+    padding: 0.25rem 0.7rem; border-radius: 999px; margin-bottom: 0.8rem;
+    background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  /* ── ADD PROJECT MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(15,14,13,0.7); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--white); border-radius: 16px;
+    padding: 2.5rem; width: 100%; max-width: 520px;
+    box-shadow: var(--shadow-lg); transform: scale(0.95);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900; margin-bottom: 1.5rem; color: var(--ink);
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.4rem; color: var(--slate); }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 0.75rem 1rem; border-radius: 8px;
+    border: 1.5px solid rgba(201,168,76,0.35);
+    background: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    color: var(--ink); transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+  .modal-error { color: var(--rust); font-size: 0.88rem; margin-top: 0.4rem; display: none; }
+
+  /* ── EXPERIENCE ── */
+  .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .exp-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 1.6rem; box-shadow: var(--shadow);
+    border-left: 4px solid var(--gold);
+  }
+  .exp-period { font-size: 0.78rem; font-weight: 700; color: var(--gold); margin-bottom: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .exp-role { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+  .exp-place { color: var(--muted); font-size: 0.9rem; margin-top: 0.2rem; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .contact-intro { color: var(--muted); font-size: 1rem; margin-bottom: 2rem; }
+  .contact-btns { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-btn {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.4rem; border-radius: var(--radius);
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    transition: all 0.25s; border: none; cursor: pointer; width: 100%;
+  }
+  .contact-btn-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .contact-btn.phone { background: #e8f5e9; color: #2e7d32; }
+  .contact-btn.phone:hover { background: #2e7d32; color: white; transform: translateX(4px); }
+  .contact-btn.phone .contact-btn-icon { background: rgba(46,125,50,0.15); }
+  .contact-btn.whatsapp { background: #e8f5e9; color: #128c7e; }
+  .contact-btn.whatsapp:hover { background: #128c7e; color: white; transform: translateX(4px); }
+  .contact-btn.whatsapp .contact-btn-icon { background: rgba(18,140,126,0.15); }
+  .contact-btn.email { background: #fff3e0; color: #e65100; }
+  .contact-btn.email:hover { background: #e65100; color: white; transform: translateX(4px); }
+  .contact-btn.email .contact-btn-icon { background: rgba(230,81,0,0.15); }
+  .contact-info-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 2rem; box-shadow: var(--shadow);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .contact-info-card h4 {
+    font-family: 'Playfair Display', serif; font-size: 1.2rem;
+    font-weight: 700; margin-bottom: 1.2rem; color: var(--ink);
+  }
+  .contact-detail { display: flex; gap: 0.7rem; margin-bottom: 0.9rem; align-items: flex-start; }
+  .contact-detail .icon { font-size: 1.1rem; margin-top: 2px; }
+  .contact-detail .text { font-size: 0.9rem; color: var(--muted); }
+
+  /* ── DOWNLOAD ── */
+  .download-section { background: var(--ink); color: var(--cream); text-align: center; padding: 70px 5vw; }
+  .download-section .section-label { color: var(--gold-light); }
+  .download-section .section-title { color: var(--cream); }
+  .download-btns { display: flex; gap: 1rem;  background-color: #4cc9c1; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.9rem 2rem; border-radius: 8px; font-weight: 700;
+    font-size: 0.95rem; cursor: pointer; text-decoration: none; border: none;
+    transition: all 0.25s;
+  
+  }
+  .download-btn.available { background: var(--pink); color: var(--ink); }
+  .download-btn.available:hover { background: yellowgreen; transform: translateY(-2px); }
+  .download-btn.unavailable {
+    background: transparent; color: rgb(185, 72, 72));
+    border: 2px dashed rgba(245,240,232,0.25); cursor: not-allowed;
+  }
+  .unavail-note { font-size: 0.82rem; color: rgba(245,240,232,0.4);background-color: darkblue; margin-top: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a0908; color: var(--muted);
+    text-align: center; padding: 2.5rem 5vw;
+    font-size: 0.88rem;
+  }
+  footer span { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in-up {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── MOBILE NAV ── */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: var(--cream); flex-direction: column;
+      padding: 1.5rem 5vw; gap: 1.2rem;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      transform: translateY(-100%); opacity: 0;
+      pointer-events: none; transition: all 0.3s;
+    }
+    .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-toggle { display: flex; flex-direction: column; }
+    .hero-photos .hero-photo { width: 90px; height: 90px; }
+    .hero-photo-inner { font-size: 1.8rem; }
+  }
+
+  /* ── PHOTO VIEWER ── */
+  .photo-viewer {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(15,14,13,0.88); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .photo-viewer.open { opacity: 1; pointer-events: all; }
+  .photo-viewer-inner {
+    width: clamp(200px, 50vw, 400px);
+    height: clamp(200px, 50vw, 400px);
+    border-radius: 50%; overflow: hidden;
+    border: 4px solid var(--gold);
+    box-shadow: 0 0 80px rgba(201,168,76,0.4);
+    transform: scale(0.8);
+    transition: transform 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .photo-viewer.open .photo-viewer-inner { transform: scale(1); }
+  .photo-viewer-inner-bg {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rust) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 900; color: white;
+  }
+  .photo-viewer-close {
+    position: absolute; top: 2rem; right: 2rem;
+    background: rgba(245,240,232,0.15); border: none; color: white;
+    width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .photo-viewer-close:hover { background: rgba(245,240,232,0.3); }
+
+  #spinPhoto {
+  animation: borderPulse 2.5s ease-in-out infinite;
+}
+#spinPhoto img {
+  animation: autoSpin 4s linear infinite;
+}
+#spinPhoto:hover img {
+  animation: autoSpin 1s linear infinite;
+}
+@keyframes autoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes borderPulse {
+  0%,100% { box-shadow: 0 6px 32px rgba(201,168,76,0.35); }
+  50%      { box-shadow: 0 6px 48px rgba(201,168,76,0.65), 0 0 0 6px rgba(201,168,76,0.15); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">ABL</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#downloads">Downloads</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+ <div style="margin-bottom:2rem;animation:fadeUp 0.6s ease both">
+</div>
+<section id="hero">
+  <div style="
+    width:140px;height:140px;border-radius:50%;
+    border:4px solid var(--gold);
+    box-shadow:0 6px 32px rgba(201,168,76,0.35);
+    margin:0 auto;
+    animation:borderPulse 2.5s ease-in-out infinite;
+    position:relative;
+    margin-bottom:2rem;
+    animation:fadeUp 0.6s ease both;
+  
+  ">
+    <img src="photo1.jpg" alt="Ashiruna" id="spinPhoto" style="
+      width:140px;height:140px;
+      object-fit:cover;
+      border-radius:50%;
+      display:block;
+      position:absolute;
+      top:0;left:0;
+      animation:autoSpin 4s linear infinite;
+      transform-origin:center center;
+    "/>
+  </div>
+</div>
+  <p class="hero-welcome">👋 Welcome to my Professional Portfolio</p>
+  <h1 class="hero-name">Ashiruna<br/><span>B. Lutachuzibwa</span></h1>
+  <p class="hero-title">Chemistry & ICT Teacher &nbsp;·&nbsp; System Developer &nbsp;·&nbsp; Tech Enthusiast</p>
+  <div style="
+  max-width:620px;
+  background:rgba(255,253,247,0.85);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(201,168,76,0.25);
+  border-left:4px solid var(--gold);
+  border-radius:16px;
+  padding:1.8rem 2rem;
+  box-shadow:0 8px 32px rgba(15,14,13,0.08);
+  margin-top:1.5rem;
+  animation:fadeUp 0.7s 0.45s ease both;
+  opacity:0;
+  text-align:left;
+">
+  <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem">
+    <span style="font-size:1.2rem">👨‍💻</span>
+    <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold)">About This Portfolio</span>
+  </div>
+  <p style="color:var(--slate);font-size:0.97rem;line-height:1.85;margin:0">
+    I am a dedicated and passionate educator and developer based in Tanzania. I bridge the gap between 
+    classroom instruction and modern technology — building practical systems that solve real-world problems 
+    while nurturing the next generation of thinkers and innovators. Explore my work, qualifications, 
+    and reach out — I'd love to connect.
+  </p>
+  <div style="display:flex;gap:1.5rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(201,168,76,0.15)">
+    <div style="text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold)">2+</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:500">Projects</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;
+      color:var(--gold)">0</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:500">Years Teaching</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold)">2</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:500">Languages</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold)">🇹🇿</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:500">Tanzania</div>
+    </div>
+  </div>
+</div>
+
+  <!-- 3 DYNAMIC PROFILE PHOTOS (placeholders with initials since no image files) -->
+  <div class="hero-photos">
+    <div class="hero-photo active-photo" onclick="openPhoto(this, 'A')" title="Photo 1">
+      <div class="hero-photo-inner">A</div>
+    </div>
+    <div class="hero-photo" onclick="openPhoto(this, 'B')" title="Photo 2">
+      <div class="hero-photo-inner" style="background: linear-gradient(135deg, var(--sage), #2a5225)">B</div>
+    </div>
+    <div class="hero-photo" onclick="openPhoto(this, 'L')" title="Photo 3">
+      <div class="hero-photo-inner" style="background: linear-gradient(135deg, var(--slate), #1c2a3a)">L</div>
+    </div>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">🚀 View My Projects</a>
+    <a href="#contact" class="btn btn-outline">📬 Contact Me</a>
+    <a href="#downloads" class="btn btn-ghost">📄 Download CV</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label fade-in-up">Who I Am</p>
+    <h2 class="section-title fade-in-up">About <span>Me</span></h2>
+    <div class="about-grid">
+      <div class="about-text fade-in-up">
+        <div style="
+  background:var(--card);
+  border-radius:16px;
+  padding:2rem;
+  box-shadow:0 8px 32px rgba(15,14,13,0.08);
+  border:1px solid rgba(201,168,76,0.15);
+  display:flex;
+  flex-direction:column;
+  gap:1.2rem;
+">
+
+  <div style="
+    display:flex;gap:1rem;align-items:flex-start;
+    padding:1rem 1.2rem;
+    background:rgba(201,168,76,0.07);
+    border-radius:10px;
+    border-left:3px solid var(--gold);
+  ">
+    <span style="font-size:1.4rem;margin-top:2px">🎓</span>
+    <p style="margin:0;color:var(--slate);font-size:0.95rem;line-height:1.8">
+      My name is <strong style="color:var(--ink)">Ashiruna Bashiru Lutachuzibwa</strong>, a Tanzanian teacher and developer 
+      currently pursuing a Bachelor of Science in Education with ICT (Chemistry & ICT) at the 
+      University of Dodoma (UDOM).
+    </p>
+  </div>
+
+  <div style="
+    display:flex;gap:1rem;align-items:flex-start;
+    padding:1rem 1.2rem;
+    background:rgba(74,103,65,0.07);
+    border-radius:10px;
+    border-left:3px solid var(--sage);
+  ">
+    <span style="font-size:1.4rem;margin-top:2px">💻</span>
+    <p style="margin:0;color:var(--slate);font-size:0.95rem;line-height:1.8">
+      I am deeply passionate about the integration of technology into education and everyday life. 
+      Beyond teaching, I develop web and management systems that address real community challenges. 
+      I served as coordinator for student teachers during field practice and hold leadership experience 
+      from both primary school and university.
+    </p>
+  </div>
+
+  <div style="
+    display:flex;gap:1rem;align-items:flex-start;
+    padding:1rem 1.2rem;
+    background:rgba(58,74,92,0.07);
+    border-radius:10px;
+    border-left:3px solid var(--slate);
+  ">
+    <span style="font-size:1.4rem;margin-top:2px">💡</span>
+    <p style="margin:0;color:var(--slate);font-size:0.95rem;line-height:1.8">
+      My philosophy: <em style="color:var(--gold);font-weight:600">"Every problem is an opportunity for a thoughtful solution."</em> Whether 
+      in the classroom or at the keyboard, I bring curiosity, dedication, and a relentless drive 
+      to learn and create.
+    </p>
+  </div>
+
+</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Teaching & Pedagogy</span>
+          <span class="skill-tag">ICT Integration</span>
+          <span class="skill-tag">Web Development</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">Internet Programming</span>
+          <span class="skill-tag">Database Design</span>
+          <span class="skill-tag">Web App Design</span>
+          <span class="skill-tag">MS Word / Excel / PowerPoint</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Research</span>
+          <span class="skill-tag">Teamwork</span>
+          <span class="skill-tag">Time Management</span>
+        </div>
+      </div>
+      <div class="info-card fade-in-up">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.2rem;color:var(--ink)">Personal Details</h3>
+        <div class="info-row"><span class="label">Full Name</span><span class="val">Ashiruna Bashiru Lutachuzibwa</span></div>
+        <div class="info-row"><span class="label">Date of Birth</span><span class="val">20 January 2004</span></div>
+        <div class="info-row"><span class="label">Nationality</span><span class="val">Tanzanian</span></div>
+        <div class="info-row"><span class="label">Home Region</span><span class="val">Bukoba, Kagera</span></div>
+        <div class="info-row"><span class="label">Religion</span><span class="val">Islamic</span></div>
+        <div class="info-row"><span class="label">Languages</span><span class="val">English, Swahili</span></div>
+        <div class="info-row"><span class="label">Email</span><span class="val"><a href="mailto:ashiruna8@gmail.com" style="color:var(--gold)">ashiruna8@gmail.com</a></span></div>
+        <div class="info-row"><span class="label">Phone</span><span class="val">+255 747 086 535</span></div>
+        <div class="info-row"><span class="label">Hobbies</span><span class="val">Reading, Coding, Problem Solving, Research</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="section-label fade-in-up">Academic Path</p>
+    <h2 class="section-title fade-in-up">My <span>Education</span></h2>
+    <div class="timeline">
+      <div class="tl-item fade-in-up">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024 – 2027</div>
+        <div class="tl-title">Bachelor of Education in Science with ICT (Chemistry & ICT)</div>
+        <div class="tl-sub">University of Dodoma (UDOM) — Pursuing Degree</div>
+      </div>
+      <div class="tl-item fade-in-up">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022 – 2024</div>
+        <div class="tl-title">Advanced Certificate of Secondary Education (ACSE)</div>
+        <div class="tl-sub">Kaigara Secondary School — Subjects: Chemistry, Biology, Geography, BAM, GS (CBG)</div>
+      </div>
+      <div class="tl-item fade-in-up">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018 – 2021</div>
+        <div class="tl-title">Certificate of Secondary Education (CSEE)</div>
+        <div class="tl-sub">Izimbya Secondary School — Ordinary Level</div>
+      </div>
+      <div class="tl-item fade-in-up">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2011 – 2017</div>
+        <div class="tl-title">Primary School Completion Certificate</div>
+        <div class="tl-sub">Kikagati Primary School</div>
+      </div>
+    </div>
+    <div style="margin-top:2rem" class="fade-in-up">
+      <div class="section-label" style="margin-bottom:0.5rem">Additional Training</div>
+      <div class="info-card" style="max-width:460px">
+        <div class="tl-year">June 2025 – Sept 2026</div>
+        <div class="tl-title">JKT Course</div>
+        <div class="tl-sub">Mgambo JKT — Certificate No. 835KJ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label fade-in-up">Career History</p>
+    <h2 class="section-title fade-in-up">Work <span>Experience</span></h2>
+    <div class="exp-grid">
+      <div class="exp-card fade-in-up">
+        <div class="exp-period">July 2025 – September 2025</div>
+        <div class="exp-role">Field Teacher</div>
+        <div class="exp-place">📍 Magufuli Secondary School</div>
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:0.6rem">
+          Delivered Chemistry and ICT lessons, coordinated student teacher activities, and integrated modern teaching methodologies.
+        </p>
+      </div>
+      <div class="exp-card fade-in-up">
+        <div class="exp-period">August 2026 – September 2026</div>
+        <div class="exp-role">Field Teacher</div>
+        <div class="exp-place">📍 Magufuli Secondary School</div>
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:0.6rem">
+          Continued professional field practice with expanded responsibilities in classroom management and ICT integration.
+        </p>
+      </div>
+    </div>
+    <div style="margin-top:2rem" class="fade-in-up">
+      <div class="info-card" style="max-width:560px">
+        <strong style="color:var(--gold)">Additional Highlights</strong>
+        <ul style="color:var(--muted);margin-top:0.7rem;padding-left:1.2rem;font-size:0.9rem;line-height:1.9">
+          <li>Held leadership positions in primary school and at university level</li>
+          <li>Served as Coordinator for Student Teachers during field practice sessions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label fade-in-up">What I've Built</p>
+    <h2 class="section-title fade-in-up">My <span>Projects</span></h2>
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Projects rendered by JS -->
+    </div>
+    <div style="margin-top:2.5rem;text-align:center" class="fade-in-up">
+      <button class="btn btn-primary" onclick="openAddModal()">➕ Add New Project</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label fade-in-up">Get In Touch</p>
+    <h2 class="section-title fade-in-up">Contact <span>Me</span></h2>
+    <div class="contact-grid">
+      <div class="fade-in-up">
+        <p class="contact-intro">
+          Whether you have a project in mind, want to discuss a teaching collaboration, or simply 
+          want to say hello — I'm always open to meaningful conversations. Reach me directly via 
+          phone, WhatsApp, or email below.
+        </p>
+        <div class="contact-btns">
+          <a href="tel:+255747086535" class="contact-btn phone">
+            <div class="contact-btn-icon">📞</div>
+            <div>
+              <div style="font-weight:700">Call Me Directly</div>
+              <div style="font-size:0.82rem;font-weight:400;opacity:0.75">+255 747 086 535</div>
+            </div>
+          </a>
+          <a href="https://wa.me/255747086535?text=Hello%20Ashiruna%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" class="contact-btn whatsapp">
+            <div class="contact-btn-icon">💬</div>
+            <div>
+              <div style="font-weight:700">Message on WhatsApp</div>
+              <div style="font-size:0.82rem;font-weight:400;opacity:0.75">+255 747 086 535</div>
+            </div>
+          </a>
+          <a href="mailto:ashiruna8@gmail.com?subject=Hello%20from%20your%20Portfolio" class="contact-btn email">
+            <div class="contact-btn-icon">✉️</div>
+            <div>
+              <div style="font-weight:700">Send an Email</div>
+              <div style="font-size:0.82rem;font-weight:400;opacity:0.75">ashiruna8@gmail.com</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-info-card fade-in-up">
+        <h4>Quick Info</h4>
+        <div class="contact-detail"><span class="icon">📍</span><span class="text">Bukoba, Kagera Region, Tanzania</span></div>
+        <div class="contact-detail"><span class="icon">🎓</span><span class="text">Student at University of Dodoma (UDOM)</span></div>
+        <div class="contact-detail"><span class="icon">🏫</span><span class="text">Chemistry & ICT Teacher</span></div>
+        <div class="contact-detail"><span class="icon">💻</span><span class="text">Web & System Developer</span></div>
+        <div class="contact-detail"><span class="icon">🌍</span><span class="text">Languages: English & Swahili</span></div>
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--warm);border-radius:10px;font-size:0.88rem;color:var(--slate)">
+          <strong>Response time:</strong> I typically respond within 24 hours. For urgent matters, WhatsApp is fastest.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section id="downloads" class="download-section">
+  <p class="section-label">Documents</p>
+  <h2 class="section-title">Download My <span style="color:var(--gold-light)">Documents</span></h2>
+  <p style="color: yellowgreen;max-width:480px;margin:0 auto 1rem;font-size:0.95rem">
+    Access my professional credentials and career profile directly.
+  </p>
+  <div class="download-btns">
+    <button class="download-btn unavailable" onclick="alert('CV is not available for download at this time. Please check back later or contact me directly.')">
+      📄 Download CV — Not Available
+    </button>
+    <button class="download-btn unavailable" onclick="alert('Resume is not available for download at this time. Please check back later or contact me directly.')">
+      📋 Download Resume — Not Available
+    </button>
+  </div>
+  <p class="unavail-note">Documents are not available for download at this time. Contact me directly to request a copy.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Ashiruna Bashiru Lutachuzibwa</span> · </p>
+</footer>
+
+<!-- PHOTO VIEWER -->
+<div class="photo-viewer" id="photoViewer" onclick="closePhoto()">
+  <div class="photo-viewer-inner" onclick="event.stopPropagation()">
+    <div class="photo-viewer-inner-bg" id="photoViewerLetter">A</div>
+  </div>
+  <button class="photo-viewer-close" onclick="closePhoto()">✕</button>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>🔐 Add New Project</h3>
+    <div id="authStep">
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem">
+        Only the portfolio owner may add projects. Please enter the owner password to continue.
+      </p>
+      <div class="form-group">
+        <label>Owner Password</label>
+        <input type="password" id="ownerPass" placeholder="Enter your password" onkeydown="if(event.key==='Enter')checkPass()"/>
+        <div class="modal-error" id="passError">❌ Incorrect password. Access denied.</div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="checkPass()">Verify &amp; Continue</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+    <div id="addStep" style="display:none">
+      <div class="form-group">
+        <label>Project Name *</label>
+        <input type="text" id="projName" placeholder="e.g. Student Portal System"/>
+      </div>
+      <div class="form-group">
+        <label>Short Description *</label>
+        <textarea id="projDesc" placeholder="Briefly describe what this project does..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Project URL *</label>
+        <input type="url" id="projUrl" placeholder="https://yourproject.com"/>
+      </div>
+      <div class="form-group">
+        <label>Category / Badge (optional)</label>
+        <input type="text" id="projBadge" placeholder="e.g. Education Tech, Web App"/>
+      </div>
+      <div class="form-group">
+        <label>Emoji Icon (optional)</label>
+        <input type="text" id="projIcon" placeholder="e.g. 🎓 or 📊" maxlength="4"/>
+      </div>
+      <div class="modal-error" id="formError">Please fill in all required fields.</div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveProject()">✅ Save Project</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── OWNER PASSWORD (change this to your own secret) ──
+const OWNER_PASSWORD = "bashiru@2004";
+
+// ── DEFAULT PROJECTS ──
+const DEFAULT_PROJECTS = [
+  {
+    id: 1,
+    name: "Smart School Management System",
+    desc: "A comprehensive, cloud-based system designed to streamline school administration, student records, academic tracking, and communication between educators, students, and parents.",
+    url: "https://ssms1.gt.tc/ssms1",
+    badge: "Education Technology",
+    icon: "🏫"
+  },
+  {
+    id: 2,
+    name: "Ideas Market",
+    desc: "An innovative platform where thinkers, entrepreneurs, and creators can share, discover, and collaborate on ideas — turning concepts into actionable opportunities.",
+    url: "https://myideas.kesug.com/public/",
+    badge: "Innovation Platform",
+    icon: "💡"
+  }
+];
+
+// ── LOAD / SAVE PROJECTS from localStorage ──
+function getProjects() {
+  try {
+    const stored = localStorage.getItem('abl_projects');
+    if (stored) return JSON.parse(stored);
+  } catch(e) {}
+  return DEFAULT_PROJECTS;
+}
+function saveProjects(arr) {
+  try { localStorage.setItem('abl_projects', JSON.stringify(arr)); } catch(e) {}
+}
+
+// ── RENDER PROJECTS ──
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
+  const projects = getProjects();
+  grid.innerHTML = '';
+  projects.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'project-card fade-in-up';
+    card.innerHTML = `
+      <div class="project-icon">${p.icon || '🚀'}</div>
+      ${p.badge ? `<span class="project-badge">${p.badge}</span>` : ''}
+      <div class="project-name">${escHtml(p.name)}</div>
+      <div class="project-desc">${escHtml(p.desc)}</div>
+      <a href="${escHtml(p.url)}" target="_blank" rel="noopener" class="project-btn">
+        Visit Project <span>→</span>
+      </a>
+    `;
+    grid.appendChild(card);
+  });
+  observeFadeIns();
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── MODAL ──
+let authed = false;
+function openAddModal() {
+  authed = false;
+  document.getElementById('authStep').style.display = 'block';
+  document.getElementById('addStep').style.display = 'none';
+  document.getElementById('passError').style.display = 'none';
+  document.getElementById('ownerPass').value = '';
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('ownerPass').focus(), 200);
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('projName').value = '';
+  document.getElementById('projDesc').value = '';
+  document.getElementById('projUrl').value = '';
+  document.getElementById('projBadge').value = '';
+  document.getElementById('projIcon').value = '';
+  document.getElementById('formError').style.display = 'none';
+}
+function checkPass() {
+  const val = document.getElementById('ownerPass').value;
+  if (val === OWNER_PASSWORD) {
+    authed = true;
+    document.getElementById('authStep').style.display = 'none';
+    document.getElementById('addStep').style.display = 'block';
+  } else {
+    document.getElementById('passError').style.display = 'block';
+    document.getElementById('ownerPass').value = '';
+    document.getElementById('ownerPass').focus();
+  }
+}
+function saveProject() {
+  const name = document.getElementById('projName').value.trim();
+  const desc = document.getElementById('projDesc').value.trim();
+  const url = document.getElementById('projUrl').value.trim();
+  const badge = document.getElementById('projBadge').value.trim();
+  const icon = document.getElementById('projIcon').value.trim();
+  if (!name || !desc || !url) {
+    document.getElementById('formError').style.display = 'block';
+    return;
+  }
+  document.getElementById('formError').style.display = 'none';
+  const projects = getProjects();
+  const newId = Date.now();
+  projects.push({ id: newId, name, desc, url, badge, icon: icon || '🚀' });
+  saveProjects(projects);
+  renderProjects();
+  closeModal();
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── PHOTO VIEWER ──
+function openPhoto(el, letter) {
+  document.querySelectorAll('.hero-photo').forEach(p => p.classList.remove('active-photo'));
+  el.classList.add('active-photo');
+  document.getElementById('photoViewerLetter').textContent = letter;
+  const bg = el.querySelector('.hero-photo-inner').style.background;
+  document.getElementById('photoViewerLetter').style.background = bg || 'linear-gradient(135deg, var(--gold), var(--rust))';
+  document.getElementById('photoViewer').classList.add('open');
+}
+function closePhoto() {
+  document.getElementById('photoViewer').classList.remove('open');
+}
+
+// ── NAV TOGGLE ──
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// ── FADE IN ON SCROLL ──
+function observeFadeIns() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in-up:not(.visible)').forEach(el => obs.observe(el));
+}
+document.addEventListener('DOMContentLoaded', () => {
+  renderProjects();
+  observeFadeIns();
+});
+
+// Photo cycle auto-animation
+let photoIdx = 0;
+const photos = document.querySelectorAll('.hero-photo');
+setInterval(() => {
+  photos.forEach(p => p.classList.remove('active-photo'));
+  photoIdx = (photoIdx + 1) % photos.length;
+  photos[photoIdx].classList.add('active-photo');
+}, 3500);
+</script>
+</body>
+</html>
+HTMLEOF
