@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BASHIRU TECHNOLOGY | MY PORTFOLIO</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<!-- Bootstrap 5 CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
 <style>
   :root {
     --ink: #0f0e0d;
@@ -370,24 +372,23 @@
   .contact-detail .text { font-size: 0.9rem; color: var(--muted); }
 
   /* ── DOWNLOAD ── */
-  .download-section { background: var(--ink); color: var(--cream); text-align: center; padding: 70px 5vw; }
+  .download-section { background: var(--whigte); color: var(--cream); text-align: center; padding: 70px 5vw; }
   .download-section .section-label { color: var(--gold-light); }
   .download-section .section-title { color: var(--cream); }
-  .download-btns { display: flex; gap: 1rem;  background-color: #4cc9c1; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+  .download-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
   .download-btn {
     display: inline-flex; align-items: center; gap: 0.6rem;
     padding: 0.9rem 2rem; border-radius: 8px; font-weight: 700;
     font-size: 0.95rem; cursor: pointer; text-decoration: none; border: none;
     transition: all 0.25s;
-  
   }
-  .download-btn.available { background: var(--pink); color: var(--ink); }
-  .download-btn.available:hover { background: yellowgreen; transform: translateY(-2px); }
+  .download-btn.available { background: var(--card); color: var(--ink); }
+  .download-btn.available:hover { background: var(--gold-light); transform: translateY(-2px); }
   .download-btn.unavailable {
-    background: transparent; color: rgb(185, 72, 72));
+    background: transparent; color: rgba(245,240,232,0.5);
     border: 2px dashed rgba(245,240,232,0.25); cursor: not-allowed;
   }
-  .unavail-note { font-size: 0.82rem; color: rgba(245,240,232,0.4);background-color: darkblue; margin-top: 1rem; }
+  .unavail-note { font-size: 0.82rem; color: rgba(245,240,232,0.4); margin-top: 1rem; }
 
   /* ── FOOTER ── */
   footer {
@@ -459,23 +460,45 @@
   }
   .photo-viewer-close:hover { background: rgba(245,240,232,0.3); }
 
+  /* ── HERO PROFILE PHOTO: professional loading effect ── */
+  .hero-avatar-frame {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 4px solid var(--gold);
+    box-shadow: 0 6px 32px rgba(201,168,76,0.35);
+    margin: 0 auto 2rem;
+    position: relative;
+    overflow: hidden;
+    animation: borderPulse 2.5s ease-in-out infinite;
+  }
   #spinPhoto {
-  animation: borderPulse 2.5s ease-in-out infinite;
-}
-#spinPhoto img {
-  animation: autoSpin 4s linear infinite;
-}
-#spinPhoto:hover img {
-  animation: autoSpin 1s linear infinite;
-}
-@keyframes autoSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-@keyframes borderPulse {
-  0%,100% { box-shadow: 0 6px 32px rgba(201,168,76,0.35); }
-  50%      { box-shadow: 0 6px 48px rgba(201,168,76,0.65), 0 0 0 6px rgba(201,168,76,0.15); }
-}
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+    /* Hidden / blurry by default while the page renders */
+    opacity: 0;
+    filter: blur(14px);
+    transform: scale(1.15);
+    transition: opacity 1.1s ease, filter 1.1s ease, transform 1.1s cubic-bezier(0.22,0.61,0.36,1);
+  }
+  /* Applied by jQuery once window fully loads: fades in + settles with a subtle zoom */
+  #spinPhoto.photo-loaded {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+    animation: autoSpin 6s linear infinite;
+  }
+  #spinPhoto.photo-loaded:hover { animation-duration: 1.6s; }
+
+  @keyframes autoSpin {
+    from { transform: rotate(0deg) scale(1); }
+    to   { transform: rotate(360deg) scale(1); }
+  }
+  @keyframes borderPulse {
+    0%,100% { box-shadow: 0 6px 32px rgba(201,168,76,0.35); }
+    50%      { box-shadow: 0 6px 48px rgba(201,168,76,0.65), 0 0 0 6px rgba(201,168,76,0.15); }
+  }
 </style>
 </head>
 <body>
@@ -497,33 +520,10 @@
 </nav>
 
 <!-- HERO -->
- <div style="margin-bottom:2rem;animation:fadeUp 0.6s ease both">
-</div>
 <section id="hero">
-  <div style="
-    width:140px;height:140px;border-radius:50%;
-    border:4px solid var(--gold);
-    box-shadow:0 6px 32px rgba(201,168,76,0.35);
-    margin:0 auto;
-    animation:borderPulse 2.5s ease-in-out infinite;
-    position:relative;
-    margin-bottom:2rem;
-    animation:fadeUp 0.6s ease both;
-  
-  ">
-    <img src="photo4.png" alt="Ashiruna" id="spinPhoto" style="
-      width:140px;height:150px;
-      object-fit:cover;
-      position: fixed;
-      border-radius:50%;
-      display:block;
-      position:absolute;
-      top:0;left:0;
-      animation:autoSpin 4s linear infinite;
-      transform-origin:center center;
-    "/>
+  <div class="hero-avatar-frame">
+    <img src="photo4.png" alt="Ashiruna" id="spinPhoto"/>
   </div>
-</div>
   <p class="hero-welcome">👋 Welcome to my Professional Portfolio</p>
   <h1 class="hero-name">Ashiruna<br/><span>B. Lutachuzibwa</span></h1>
   <p class="hero-title">Chemistry & ICT Teacher &nbsp;·&nbsp; System Developer &nbsp;·&nbsp; Tech Enthusiast</p>
@@ -720,10 +720,21 @@
     </div>
     <div style="margin-top:2rem" class="fade-in-up">
       <div class="section-label" style="margin-bottom:0.5rem">Additional Training</div>
-      <div class="info-card" style="max-width:460px">
-        <div class="tl-year">June 2024 – Sept 2024</div>
-        <div class="tl-title">JKT Course</div>
-        <div class="tl-sub">Mgambo JKT — Certificate No. BN5189</div>
+      <div style="display:flex;flex-wrap:wrap;gap:1.2rem">
+        <div class="info-card" style="max-width:460px;flex:1 1 320px">
+          <div class="tl-year">June 2024 – Sept 2024</div>
+          <div class="tl-title">JKT Course</div>
+          <div class="tl-sub">Mgambo JKT — Certificate No. BN5189</div>
+        </div>
+        <div class="info-card" style="max-width:460px;flex:1 1 320px;border:1px solid rgba(201,168,76,0.25);position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, var(--gold), var(--rust))"></div>
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem">
+            <span style="font-size:1.2rem">🌐</span>
+            <div class="tl-year" style="margin-bottom:0">Professional Certification</div>
+          </div>
+          <div class="tl-title">Certificate in ICT Integration in Teaching and Learning</div>
+          <div class="tl-sub">Jointly awarded by <strong style="color:var(--slate)">UNESCO</strong> and the <strong style="color:var(--slate)">Tanzania Institute of Education (TIE)</strong></div>
+        </div>
       </div>
     </div>
   </div>
@@ -816,7 +827,7 @@
       </div>
       <div class="contact-info-card fade-in-up">
         <h4>Quick Info</h4>
-        <div class="contact-detail"><span class="icon">📍</span><span class="text">Bukoba, Kagera Region, Tanzania</span></div>
+        <div class="contact-detail"><span class="icon">🏘️</span><span class="text">Bukoba, Kagera Region, Tanzania</span></div>
         <div class="contact-detail"><span class="icon">🎓</span><span class="text">Student at University of Dodoma (UDOM)</span></div>
         <div class="contact-detail"><span class="icon">🏫</span><span class="text">Chemistry & ICT Teacher</span></div>
         <div class="contact-detail"><span class="icon">💻</span><span class="text">Web & System Developer</span></div>
@@ -832,8 +843,8 @@
 <!-- DOWNLOADS -->
 <section id="downloads" class="download-section">
   <p class="section-label">Documents</p>
-  <h2 class="section-title">Download My <span style="color:var(--gold-light)">Documents</span></h2>
-  <p style="color: yellowgreen;max-width:480px;margin:0 auto 1rem;font-size:0.95rem">
+  <h2 class="section-title"> <span style="color:var(--gold-light)"> Download My Documents</span></h2>
+  <p style="color:rgba(245,240,232,0.75);max-width:480px;margin:0 auto 1rem;font-size:0.95rem">
     Access my professional credentials and career profile directly.
   </p>
   <div class="download-btns">
@@ -1066,6 +1077,20 @@ setInterval(() => {
   photos[photoIdx].classList.add('active-photo');
 }, 3500);
 </script>
+
+<!-- jQuery CDN (required for the professional profile-photo load effect) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- Bootstrap 5 JS Bundle (Popper included) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── PROFESSIONAL PROFILE PHOTO LOADING EFFECT ──
+// The avatar starts hidden/blurry (see #spinPhoto CSS). Once the entire
+// page (images, fonts, etc.) has fully finished loading, we reveal it with
+// a graceful fade-in + subtle zoom-settle, then hand off to the gentle
+// continuous spin defined in CSS (.photo-loaded).
+$(window).on('load', function () {
+  $('#spinPhoto').addClass('photo-loaded');
+});
+</script>
 </body>
 </html>
-
