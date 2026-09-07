@@ -192,6 +192,8 @@
   .btn-outline:hover { background: var(--ink); color: var(--cream); transform: translateY(-2px); }
   .btn-ghost { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
   .btn-ghost:hover { background: var(--gold); color: var(--ink); transform: translateY(-2px); }
+  .btn-danger { background: #d32f2f; color: white; }
+  .btn-danger:hover { background: #b71c1c; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(211,47,47,0.3); }
 
   /* ── SECTIONS ── */
   section { padding: 90px 5vw; }
@@ -279,6 +281,12 @@
     font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.6rem;
   }
   .project-desc { color: var(--muted); font-size: 0.9rem; flex: 1; margin-bottom: 1.5rem; }
+  .project-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
   .project-btn {
     display: inline-flex; align-items: center; gap: 0.45rem;
     background: var(--gold); color: var(--ink);
@@ -287,11 +295,41 @@
     transition: all 0.25s; width: fit-content; border: none; cursor: pointer;
   }
   .project-btn:hover { background: var(--rust); color: white; transform: translateX(3px); }
+  .project-delete-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    background: #d32f2f; color: white;
+    padding: 0.65rem 1.4rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.88rem; text-decoration: none;
+    transition: all 0.25s; border: none; cursor: pointer;
+  }
+  .project-delete-btn:hover { background: #b71c1c; transform: translateX(3px); }
   .project-badge {
     display: inline-block; font-size: 0.75rem; font-weight: 600;
     padding: 0.25rem 0.7rem; border-radius: 999px; margin-bottom: 0.8rem;
     background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
   }
+
+  /* ── DELETE CONFIRM MODAL ── */
+  .delete-modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(15,14,13,0.7); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .delete-modal-overlay.open { opacity: 1; pointer-events: all; }
+  .delete-modal-card {
+    background: var(--white); border-radius: 16px;
+    padding: 2.5rem; width: 100%; max-width: 440px;
+    box-shadow: var(--shadow-lg); transform: scale(0.95);
+    transition: transform 0.3s;
+  }
+  .delete-modal-overlay.open .delete-modal-card { transform: scale(1); }
+  .delete-modal-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; margin-bottom: 0.8rem; color: var(--ink);
+  }
+  .delete-modal-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .delete-modal-actions { display: flex; gap: 1rem; }
 
   /* ── ADD PROJECT MODAL ── */
   .modal-overlay {
@@ -307,7 +345,7 @@
     box-shadow: var(--shadow-lg); transform: scale(0.95);
     transition: transform 0.3s;
     position: relative;
-    z-index: 1000; /* Hii inaivuta fomu mbele ya ukungu */
+    z-index: 1000;
 }
 .modal-overlay.open .custom-modal-card { transform: scale(1); }
   .modal h3 {
@@ -859,6 +897,18 @@
   <button class="photo-viewer-close" onclick="closePhoto()">✕</button>
 </div>
 
+<!-- DELETE CONFIRM MODAL -->
+<div class="delete-modal-overlay" id="deleteModal">
+  <div class="delete-modal-card">
+    <h3>⚠️ Delete Project</h3>
+    <p>Are you sure you want to delete "<span id="deleteProjectName"></span>"? This action cannot be undone.</p>
+    <div class="delete-modal-actions">
+      <button class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete</button>
+      <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADD PROJECT MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="custom-modal-card">
@@ -943,6 +993,9 @@ function saveProjects(arr) {
   try { localStorage.setItem('abl_projects', JSON.stringify(arr)); } catch(e) {}
 }
 
+// ── DELETE STATE ──
+let deleteTargetId = null;
+
 // ── RENDER PROJECTS ──
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
@@ -953,12 +1006,17 @@ function renderProjects() {
     card.className = 'project-card fade-in-up';
     card.innerHTML = `
       <div class="project-icon">${p.icon || '🚀'}</div>
-      ${p.badge ? `<span class="project-badge">${p.badge}</span>` : ''}
+      ${p.badge ? `<span class="project-badge">${escHtml(p.badge)}</span>` : ''}
       <div class="project-name">${escHtml(p.name)}</div>
       <div class="project-desc">${escHtml(p.desc)}</div>
-      <a href="${escHtml(p.url)}" target="_blank" rel="noopener" class="project-btn">
-        Visit Project <span>→</span>
-      </a>
+      <div class="project-actions">
+        <a href="${escHtml(p.url)}" target="_blank" rel="noopener" class="project-btn">
+          Visit Project <span>→</span>
+        </a>
+        <button class="project-delete-btn" onclick="requestDelete(${p.id})">
+          🗑️ Delete
+        </button>
+      </div>
     `;
     grid.appendChild(card);
   });
@@ -967,6 +1025,40 @@ function renderProjects() {
 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── DELETE FUNCTIONS ──
+function requestDelete(id) {
+  // First verify password before showing delete confirmation
+  const pass = prompt("Enter owner password to delete this project:");
+  if (pass === null) return; // User cancelled
+  if (pass !== OWNER_PASSWORD) {
+    alert("❌ Incorrect password. Deletion cancelled.");
+    return;
+  }
+  
+  const projects = getProjects();
+  const project = projects.find(p => p.id === id);
+  if (!project) return;
+  
+  deleteTargetId = id;
+  document.getElementById('deleteProjectName').textContent = project.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTargetId = null;
+}
+
+function confirmDelete() {
+  if (deleteTargetId === null) return;
+  
+  let projects = getProjects();
+  projects = projects.filter(p => p.id !== deleteTargetId);
+  saveProjects(projects);
+  renderProjects();
+  closeDeleteModal();
 }
 
 // ── MODAL ──
@@ -1023,6 +1115,12 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
+// ── DELETE MODAL EVENTS ──
+document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDelete);
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
+
 // ── PHOTO VIEWER ──
 function openPhoto(el, letter) {
   document.querySelectorAll('.hero-photo').forEach(p => p.classList.remove('active-photo'));
@@ -1070,8 +1168,6 @@ setInterval(() => {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
   // ── PROFILE PHOTO REVEAL: fade-in + subtle scale-up once the page has fully loaded ──
-  // The photo stays hidden/blurred (see CSS) until the whole page (images, fonts, etc.)
-  // has finished loading, then reveals smoothly and permanently stays still.
   $(window).on('load', function () {
     $('#spinPhoto').addClass('photo-revealed');
   });
