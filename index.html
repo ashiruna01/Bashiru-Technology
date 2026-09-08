@@ -144,7 +144,7 @@
   }
   .hero-photo {
     width: 110px; height: 110px; border-radius: 50%;
-    background: var(--warm);
+    background: transparent;
     border: 3px solid var(--gold);
     overflow: hidden; position: relative;
     box-shadow: 0 6px 24px rgba(201,168,76,0.25);
@@ -155,7 +155,7 @@
   .hero-photo:hover { transform: scale(1.08) translateY(-4px); box-shadow: 0 12px 36px rgba(201,168,76,0.4); }
   .hero-photo-inner {
     width: 100%; height: 100%; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--rust) 100%);
+    background: transparent;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Playfair Display', serif;
     font-size: 2.2rem; font-weight: 900; color: white;
@@ -479,8 +479,8 @@
 
   /* ── DOWNLOAD SECTION - SLATE BLUE PROFESSIONAL ── */
 .download-section { 
-  background: linear-gradient(135deg, #2c3e50 0%, #1a2634 60%, #0f1a24 100%);
-  color: #ffffff;
+  background: blue;
+  color:black;
   text-align: center; 
   padding: 70px 5vw;
   position: relative;
@@ -496,7 +496,7 @@
   width: 350px;
   height: 350px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%);
+  background: black;
   pointer-events: none;
 }
 
@@ -509,18 +509,18 @@
 }
 
 .download-section .section-title { 
-  color: #ffffff;
+  color: #0cb32d;
   position: relative;
   z-index: 1;
   font-family: 'Playfair Display', serif;
 }
 
 .download-section .section-title span { 
-  color: #f0d97a;
+  color: #d80c2e;
 }
 
 .download-section .section-title + p {
-  color: rgba(255,255,255,0.75);
+  color: rgba(17, 177, 54, 0.75);
   max-width: 480px;
   margin: 0 auto 1rem;
   font-size: 0.95rem;
@@ -553,7 +553,7 @@
 }
 
 .download-btn.available { 
-  background: linear-gradient(135deg, #c9a84c, #b8943a);
+  background: darkkhaki;
   color: #0f0e0d;
 }
 
@@ -564,7 +564,7 @@
 }
 
 .download-btn.unavailable {
-  background: rgba(255,255,255,0.08);
+  background: black;
   color: rgba(255,255,255,0.75);
   border: 2px dashed rgba(255,255,255,0.20);
   cursor: not-allowed;
@@ -578,7 +578,7 @@
 
 .unavail-note { 
   font-size: 0.82rem; 
-  color: rgba(255,255,255,0.50); 
+  color: rgba(219, 6, 6, 0.5); 
   margin-top: 1.2rem;
   position: relative;
   z-index: 1;
@@ -664,7 +664,7 @@
     margin: 0 auto 2rem;
     position: relative;
     overflow: hidden;
-    background: var(--cream);
+    background: transparent;
     flex-shrink: 0;
   }
   
@@ -677,7 +677,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem;
     font-weight: 900;
-    color: white;
+    color: var(--gold);
     text-shadow: 0 2px 12px rgba(0,0,0,0.2);
     background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--rust) 100%);
   }
