@@ -43,7 +43,7 @@
     width: 100%; 
     box-sizing: border-box; 
     z-index: 100;
-    background: transparent;
+    background: rgba(245, 240, 232, 0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(201,168,76,0.2);
     display: flex; 
@@ -93,7 +93,7 @@
     min-height: 100vh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 180px 5vw 60px;
-    background: linear-gradient(135deg, var(--cream) 0%, var(--warm) 100%);
+    background: linear-gradient(160deg, #faf6ef 0%, #f0eadc 30%, #e8dfc8 60%, #dfd4b8 100%);
     position: relative; overflow: scroll;
   }
   #hero::before {
@@ -101,7 +101,7 @@
     position: absolute; top: -120px; right: -80px;
     width: 480px; height: 480px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
   #hero::after {
@@ -109,7 +109,7 @@
     position: absolute; bottom: -80px; left: -60px;
     width: 320px; height: 320px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(74,103,65,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(74,103,65,0.10) 0%, transparent 70%);
     pointer-events: none;
   }
   .hero-welcome {
@@ -515,7 +515,7 @@
   @media (max-width: 768px) {
     .nav-links {
       position: fixed; top: 64px; left: 0; right: 0;
-      background: var(--cream); flex-direction: column;
+      background: rgba(245,240,232,0.98); flex-direction: column;
       padding: 1.5rem 5vw; gap: 1.2rem;
       border-bottom: 1px solid rgba(201,168,76,0.2);
       transform: translateY(-100%); opacity: 0;
@@ -568,7 +568,16 @@
     margin: 0 auto 2rem;
     position: relative;
     overflow: hidden;
-    background: var(--warm);
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--rust) 100%);
+  }
+  .profile-photo-frame .fallback-avatar {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900;
+    color: white;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--rust) 100%);
   }
   #spinPhoto {
     width: 100%; height: 100%;
@@ -584,6 +593,12 @@
     opacity: 1;
     filter: blur(0);
     transform: scale(1);
+  }
+  #spinPhoto.photo-error {
+    display: none;
+  }
+  .profile-photo-frame .fallback-avatar.hidden {
+    display: none;
   }
 
   /* Loading spinner */
@@ -619,13 +634,14 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="profile-photo-frame">
-    <img src="photo4.png" alt="Ashiruna" id="spinPhoto"/>
+  <div class="profile-photo-frame" id="profileFrame">
+    <div class="fallback-avatar" id="fallbackAvatar">AB</div>
+    <img src="photo4.png" alt="Ashiruna" id="spinPhoto" onerror="handlePhotoError()"/>
   </div>
   <p class="hero-welcome">👋 Welcome to my Professional Portfolio</p>
   <h1 class="hero-name">Ashiruna<br/><span>B. Lutachuzibwa</span></h1>
   <p class="hero-title">Chemistry & ICT Teacher &nbsp;·&nbsp; System Developer &nbsp;·&nbsp; Tech Enthusiast</p>
-  <div style="max-width:620px;background:rgba(255,253,247,0.85);backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,0.25);border-left:4px solid var(--gold);border-radius:16px;padding:1.8rem 2rem;box-shadow:0 8px 32px rgba(15,14,13,0.08);margin-top:1.5rem;animation:fadeUp 0.7s 0.45s ease both;opacity:0;text-align:left;">
+  <div style="max-width:620px;background:rgba(255,253,247,0.92);backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,0.25);border-left:4px solid var(--gold);border-radius:16px;padding:1.8rem 2rem;box-shadow:0 8px 32px rgba(15,14,13,0.08);margin-top:1.5rem;animation:fadeUp 0.7s 0.45s ease both;opacity:0;text-align:left;">
     <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.9rem">
       <span style="font-size:1.2rem">👨💻</span>
       <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold)">About This Portfolio</span>
@@ -989,14 +1005,20 @@
 </div>
 
 <script>
+// ── HANDLE PHOTO ERROR ──
+function handlePhotoError() {
+  const img = document.getElementById('spinPhoto');
+  const fallback = document.getElementById('fallbackAvatar');
+  img.classList.add('photo-error');
+  fallback.classList.remove('hidden');
+}
+
 // ── CONFIGURATION ──
 const OWNER_PASSWORD = "bashiru@2004";
 
 // ── JSONBin CONFIGURATION ──
-// JIANDIKISHE kwenye JSONBin.io kupata API key yako
-// Badilisha hizi values na zako mwenyewe:
-const JSONBIN_BIN_ID = "6a9fe88bffd5d16053ecc254"; // Badilisha hii na Bin ID yako
-const JSONBIN_API_KEY = "$2a$10$V867DuMThXQchdXs0x0G/eUx44pN6qlOoudcWQztohLiEq345x8h6 "; // Badilisha na API key yako
+const JSONBIN_BIN_ID = "6a9fe88bffd5d16053ecc254";
+const JSONBIN_API_KEY = "$2a$10$V867DuMThXQchdXs0x0G/eUx44pN6qlOoudcWQztohLiEq345x8h6";
 
 const DEFAULT_PROJECTS = [
   {
@@ -1029,7 +1051,6 @@ function showSweetModal(type, icon, title, message) {
   if (type === 'success') {
     btn.classList.add('success');
     btn.textContent = '✨ Wonderful!';
-    // Add confetti for success
     createConfetti();
   } else if (type === 'error') {
     btn.classList.add('error');
@@ -1302,7 +1323,10 @@ setInterval(() => {
 
 // ── PROFILE PHOTO REVEAL ──
 $(window).on('load', function () {
-  $('#spinPhoto').addClass('photo-revealed');
+  const img = document.getElementById('spinPhoto');
+  if (!img.classList.contains('photo-error')) {
+    img.classList.add('photo-revealed');
+  }
 });
 </script>
 
