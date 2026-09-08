@@ -132,11 +132,6 @@
     color: var(--slate); font-weight: 400; text-align: center;
     animation: fadeUp 0.7s 0.3s ease both; opacity: 0;
   }
-  .hero-desc {
-    max-width: 640px; text-align: center; margin-top: 1.5rem;
-    color: var(--muted); font-size: 1rem; line-height: 1.8;
-    animation: fadeUp 0.7s 0.45s ease both; opacity: 0;
-  }
   .hero-photos {
     display: flex; gap: 1.2rem; margin-top: 2.8rem; justify-content: center;
     flex-wrap: wrap;
@@ -707,6 +702,8 @@
     transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
                 filter 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
                 transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    z-index: 2;
   }
   
   #spinPhoto.photo-revealed {
@@ -772,7 +769,7 @@
     </p>
     <div style="display:flex;gap:1.5rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(201,168,76,0.15)">
       <div style="text-align:center">
-        <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold)">3</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold)">4</div>
         <div style="font-size:0.75rem;color:var(--muted);font-weight:500">Projects</div>
       </div>
       <div style="text-align:center">
@@ -1138,9 +1135,18 @@ const OWNER_PASSWORD = "bashiru@2004";
 const JSONBIN_BIN_ID = "6a9fe88bffd5d16053ecc254";
 const JSONBIN_API_KEY = "$2a$10$V867DuMThXQchdXs0x0G/eUx44pN6qlOoudcWQztohLiEq345x8h6";
 
+// ── PROJECTS (4 PROJECTS) ──
 const DEFAULT_PROJECTS = [
   {
     id: 1,
+    name: "Smart School Management System",
+    desc: "A comprehensive, cloud-based system designed to streamline school administration, student records, academic tracking, and communication between educators, students, and parents.",
+    url: "https://ssms1.gt.tc",
+    badge: "Education Technology",
+    icon: "🏫"
+  },
+  {
+    id: 2,
     name: "Sokoletu",
     desc: "An innovative e-commerce platform that connects buyers and sellers, enabling seamless online transactions, product listings, and secure payments for a thriving digital marketplace.",
     url: "https://sokoletu.site.je",
@@ -1148,7 +1154,7 @@ const DEFAULT_PROJECTS = [
     icon: "🛒"
   },
   {
-    id: 2,
+    id: 3,
     name: "Biashara Yangu",
     desc: "A comprehensive business management system designed to help small and medium enterprises track inventory, manage sales, monitor expenses, and grow their business efficiently.",
     url: "https://biasharamkononi.gt.tc",
@@ -1156,7 +1162,7 @@ const DEFAULT_PROJECTS = [
     icon: "📊"
   },
   {
-    id: 3,
+    id: 4,
     name: "Ideas Market",
     desc: "An innovative platform where thinkers, entrepreneurs, and creators can share, discover, and collaborate on ideas — turning concepts into actionable opportunities.",
     url: "https://myideas.kesug.com/public/",
