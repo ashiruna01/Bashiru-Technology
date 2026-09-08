@@ -1129,7 +1129,7 @@
   </div>
 </div>
 
-<script>
+     <script>
 // ── HANDLE PHOTO ERROR ──
 function handlePhotoError() {
   const img = document.getElementById('spinPhoto');
@@ -1143,12 +1143,12 @@ const OWNER_PASSWORD = "bashiru@2004";
 
 // ── JSONBin CONFIGURATION ──
 const JSONBIN_BIN_ID = "6a9fe88bffd5d16053ecc254";
-const JSONBIN_API_KEY = "$2a$10$V867DuMThXQchdXs0x0G/eUx44pN6qlOoudcWQztohLiEq345x8h6";
+const JSONBIN_ACCESS_KEY = "$2a$10$aqErct3DD6PgNTtA6qN4Iujd9FYZmeXafImZSj7aqnjzC4zN/hqeW";
 
 // ── LOCAL STORAGE FALLBACK KEY ──
 const LOCAL_STORAGE_KEY = "portfolio_projects_v1";
 
-// ── PROJECTS (4 PROJECTS) ──
+// ── PROJECTS (DEFAULT FALLBACK) ──
 const DEFAULT_PROJECTS = [
   {
     id: 1,
@@ -1233,7 +1233,7 @@ function createConfetti() {
   setTimeout(() => { container.innerHTML = ''; }, 4000);
 }
 
-// ── FETCH WITH TIMEOUT (prevents the UI from ever hanging on a slow/dead API) ──
+// ── FETCH WITH TIMEOUT ──
 function fetchWithTimeout(url, options = {}, timeoutMs = 6000) {
   return Promise.race([
     fetch(url, options),
@@ -1267,16 +1267,15 @@ function writeLocalProjects(arr) {
   }
 }
 
-// ── LOAD / SAVE PROJECTS (JSONBin first, localStorage fallback) ──
+// ── LOAD / SAVE PROJECTS (JSONBin via X-Access-Key) ──
 async function getProjects() {
   try {
     const response = await fetchWithTimeout(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+      headers: { 'X-Access-Key': JSONBIN_ACCESS_KEY }
     });
     if (!response.ok) throw new Error('JSONBin fetch failed: ' + response.status);
     const data = await response.json();
     if (data.record && Array.isArray(data.record.projects)) {
-      // Keep a local cache in sync so the fallback path is always up to date
       writeLocalProjects(data.record.projects);
       return data.record.projects;
     }
@@ -1285,31 +1284,26 @@ async function getProjects() {
     console.warn('JSONBin unavailable, falling back to localStorage:', error);
     const local = readLocalProjects();
     if (local) return local;
-    // First run with no cache yet — seed localStorage with the defaults
     writeLocalProjects(DEFAULT_PROJECTS);
     return DEFAULT_PROJECTS;
   }
 }
 
 async function saveProjects(arr) {
-  // Persist locally first so adding/deleting never hangs or gets lost,
-  // even if the JSONBin call fails or is unauthorized.
   writeLocalProjects(arr);
   try {
     const response = await fetchWithTimeout(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_API_KEY
+        'X-Access-Key': JSONBIN_ACCESS_KEY
       },
       body: JSON.stringify({ projects: arr })
     });
     if (!response.ok) throw new Error('JSONBin save failed: ' + response.status);
     return true;
   } catch (error) {
-    console.warn('JSONBin save failed, changes kept in localStorage instead:', error);
-    // The data is safely stored locally, so the save still "succeeds" from
-    // the user's point of view — the UI updates and nothing hangs.
+    console.warn('JSONBin save failed, stored locally:', error);
     return true;
   }
 }
@@ -1511,10 +1505,6 @@ setInterval(() => {
   photos[photoIdx].classList.add('active-photo');
 }, 3500);
 
-// ── PROFILE PHOTO REVEAL (progressive enhancement only) ──
-// The photo is already visible by default via CSS, so this just adds the
-// optional reveal class if jQuery happens to be available. It no longer
-// needs to run for the photo to display correctly.
 if (window.jQuery) {
   $(window).on('load', function () {
     const img = document.getElementById('spinPhoto');
@@ -1524,6 +1514,6 @@ if (window.jQuery) {
   });
 }
 </script>
-
+     
 </body>
 </html>
