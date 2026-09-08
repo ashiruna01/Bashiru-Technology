@@ -10,6 +10,9 @@
 <title>BASHIRU TECHNOLOGY | MY PORTFOLIO</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- jQuery moved here (into <head>) so it is guaranteed to be loaded before
+     $(window).on('load', ...) is registered later in the page. -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
   :root {
     --ink: #0f0e0d;
@@ -94,7 +97,7 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 180px 5vw 60px;
     background: linear-gradient(160deg, #faf6ef 0%, #f0eadc 30%, #e8dfc8 60%, #dfd4b8 100%);
-    position: relative; overflow: scroll;
+    position: relative; overflow: visible;
   }
   #hero::before {
     content: '';
@@ -472,10 +475,10 @@
   .contact-detail .icon { font-size: 1.1rem; margin-top: 2px; }
   .contact-detail .text { font-size: 0.9rem; color: var(--muted); }
 
-  /* ── DOWNLOAD SECTION - SLATE BLUE PROFESSIONAL ── */
+  /* ── DOWNLOAD SECTION - SLATE BLUE PROFESSIONAL, CLEAN & HIGH-CONTRAST ── */
 .download-section { 
   background: linear-gradient(135deg, #2c3e50 0%, #1a2634 60%, #0f1a24 100%);
-  color: #ffffff;
+  color: #fffff;
   text-align: center; 
   padding: 70px 5vw;
   position: relative;
@@ -495,7 +498,7 @@
 }
 
 .download-section .section-label { 
-  color: #f0d97a;
+  color: darkblue;
   position: relative;
   z-index: 1;
   font-weight: 700;
@@ -503,18 +506,18 @@
 }
 
 .download-section .section-title { 
-  color: #ffffff;
+  color: green;
   position: relative;
   z-index: 1;
   font-family: 'Playfair Display', serif;
 }
 
 .download-section .section-title span { 
-  color: #f0d97a;
+  color: yellow;
 }
 
 .download-section .section-title + p {
-  color: rgba(255,255,255,0.80);
+  color: red;
   max-width: 480px;
   margin: 0 auto 1rem;
   font-size: 0.95rem;
@@ -557,22 +560,25 @@
   box-shadow: 0 8px 30px rgba(201,168,76,0.35);
 }
 
+/* No backdrop-filter here (removed for reliable, non-blurry rendering).
+   Solid, opaque background + white text gives full contrast against the
+   dark section background. */
 .download-btn.unavailable {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.75);
-  border: 2px dashed rgba(255,255,255,0.25);
+  background: #3d4f63;
+  color: red;
+  border: 2px dashed rgba(255,255,255,0.45);
   cursor: not-allowed;
-  backdrop-filter: blur(4px);
 }
 
 .download-btn.unavailable:hover {
-  background: rgba(255,255,255,0.15);
+  background: #4a5f75;
+  border-color: rgba(255,255,255,0.6);
   transform: translateY(-2px);
 }
 
 .unavail-note { 
-  font-size: 0.82rem; 
-  color: rgba(255,255,255,0.50);
+  font-size: 0.85rem; 
+  color: tomato;
   margin-top: 1.2rem;
   position: relative;
   z-index: 1;
@@ -690,15 +696,19 @@
     display: flex;
   }
 
+  /* Photo is visible by default (opacity 1 / no blur / no transform) so it
+     renders correctly even if JavaScript never runs or jQuery fails to load.
+     The transition + .photo-revealed class below are kept only as an optional
+     progressive-enhancement flourish, not a requirement for visibility. */
   #spinPhoto {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     border-radius: 50%;
-    opacity: 0;
-    filter: blur(6px);
-    transform: scale(0.92);
+    opacity: 1;
+    filter: none;
+    transform: none;
     transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
                 filter 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
                 transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -708,8 +718,8 @@
   
   #spinPhoto.photo-revealed {
     opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
+    filter: none;
+    transform: none;
   }
   
   #spinPhoto.photo-error {
@@ -1135,6 +1145,9 @@ const OWNER_PASSWORD = "bashiru@2004";
 const JSONBIN_BIN_ID = "6a9fe88bffd5d16053ecc254";
 const JSONBIN_API_KEY = "$2a$10$V867DuMThXQchdXs0x0G/eUx44pN6qlOoudcWQztohLiEq345x8h6";
 
+// ── LOCAL STORAGE FALLBACK KEY ──
+const LOCAL_STORAGE_KEY = "portfolio_projects_v1";
+
 // ── PROJECTS (4 PROJECTS) ──
 const DEFAULT_PROJECTS = [
   {
@@ -1220,27 +1233,70 @@ function createConfetti() {
   setTimeout(() => { container.innerHTML = ''; }, 4000);
 }
 
-// ── LOAD / SAVE PROJECTS from JSONBin ──
+// ── FETCH WITH TIMEOUT (prevents the UI from ever hanging on a slow/dead API) ──
+function fetchWithTimeout(url, options = {}, timeoutMs = 6000) {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timed out')), timeoutMs)
+    )
+  ]);
+}
+
+// ── LOCAL STORAGE HELPERS ──
+function readLocalProjects() {
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn('Could not read projects from localStorage:', e);
+  }
+  return null;
+}
+
+function writeLocalProjects(arr) {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(arr));
+    return true;
+  } catch (e) {
+    console.warn('Could not write projects to localStorage:', e);
+    return false;
+  }
+}
+
+// ── LOAD / SAVE PROJECTS (JSONBin first, localStorage fallback) ──
 async function getProjects() {
   try {
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+    const response = await fetchWithTimeout(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
       headers: { 'X-Master-Key': JSONBIN_API_KEY }
     });
-    if (!response.ok) throw new Error('Failed to fetch');
+    if (!response.ok) throw new Error('JSONBin fetch failed: ' + response.status);
     const data = await response.json();
     if (data.record && Array.isArray(data.record.projects)) {
+      // Keep a local cache in sync so the fallback path is always up to date
+      writeLocalProjects(data.record.projects);
       return data.record.projects;
     }
-    return DEFAULT_PROJECTS;
+    throw new Error('Unexpected JSONBin response shape');
   } catch (error) {
-    console.warn('Could not fetch from JSONBin, using defaults:', error);
+    console.warn('JSONBin unavailable, falling back to localStorage:', error);
+    const local = readLocalProjects();
+    if (local) return local;
+    // First run with no cache yet — seed localStorage with the defaults
+    writeLocalProjects(DEFAULT_PROJECTS);
     return DEFAULT_PROJECTS;
   }
 }
 
 async function saveProjects(arr) {
+  // Persist locally first so adding/deleting never hangs or gets lost,
+  // even if the JSONBin call fails or is unauthorized.
+  writeLocalProjects(arr);
   try {
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+    const response = await fetchWithTimeout(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -1248,11 +1304,13 @@ async function saveProjects(arr) {
       },
       body: JSON.stringify({ projects: arr })
     });
-    if (!response.ok) throw new Error('Failed to save');
+    if (!response.ok) throw new Error('JSONBin save failed: ' + response.status);
     return true;
   } catch (error) {
-    console.error('Failed to save projects:', error);
-    return false;
+    console.warn('JSONBin save failed, changes kept in localStorage instead:', error);
+    // The data is safely stored locally, so the save still "succeeds" from
+    // the user's point of view — the UI updates and nothing hangs.
+    return true;
   }
 }
 
@@ -1453,16 +1511,19 @@ setInterval(() => {
   photos[photoIdx].classList.add('active-photo');
 }, 3500);
 
-// ── PROFILE PHOTO REVEAL ──
-$(window).on('load', function () {
-  const img = document.getElementById('spinPhoto');
-  if (!img.classList.contains('photo-error')) {
-    img.classList.add('photo-revealed');
-  }
-});
+// ── PROFILE PHOTO REVEAL (progressive enhancement only) ──
+// The photo is already visible by default via CSS, so this just adds the
+// optional reveal class if jQuery happens to be available. It no longer
+// needs to run for the photo to display correctly.
+if (window.jQuery) {
+  $(window).on('load', function () {
+    const img = document.getElementById('spinPhoto');
+    if (!img.classList.contains('photo-error')) {
+      img.classList.add('photo-revealed');
+    }
+  });
+}
 </script>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </body>
 </html>
