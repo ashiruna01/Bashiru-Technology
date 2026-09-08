@@ -477,24 +477,114 @@
   .contact-detail .icon { font-size: 1.1rem; margin-top: 2px; }
   .contact-detail .text { font-size: 0.9rem; color: var(--muted); }
 
-  .download-section { background: var(--ink); color: var(--cream); text-align: center; padding: 70px 5vw; }
-  .download-section .section-label { color: var(--gold-light); }
-  .download-section .section-title { color: var(--cream); }
-  .download-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
-  .download-btn {
-    display: inline-flex; align-items: center; gap: 0.6rem;
-    padding: 0.9rem 2rem; border-radius: 8px; font-weight: 700;
-    font-size: 0.95rem; cursor: pointer; text-decoration: none; border: none;
-    transition: all 0.25s;
-  }
-  .download-btn.available { background: var(--gold); color: var(--ink); }
-  .download-btn.available:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .download-btn.unavailable {
-    background: transparent; color: var(--cream);
-    border: 2px dashed rgba(245,240,232,0.35); cursor: not-allowed;
-  }
-  .unavail-note { font-size: 0.82rem; color: rgba(245,240,232,0.65); margin-top: 1rem; }
 
+/* ── DOWNLOAD SECTION - SLATE BLUE (KISASA) ── */
+.download-section { 
+  background: linear-gradient(135deg, var(--slate) 0%, #1a2634 100%);
+  color: var(--white);
+  text-align: center; 
+  padding: 70px 5vw;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ongeza decorative element */
+.download-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.download-section::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -10%;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.download-section .section-label { 
+  color: var(--gold-light); 
+  position: relative;
+  z-index: 1;
+}
+
+.download-section .section-title { 
+  color: var(--white); 
+  position: relative;
+  z-index: 1;
+}
+
+.download-section .section-title span { 
+  color: var(--gold-light); 
+}
+
+.download-btns { 
+  display: flex; 
+  gap: 1rem; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  margin-top: 1.5rem; 
+  position: relative;
+  z-index: 1;
+}
+
+.download-btn {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.6rem;
+  padding: 0.9rem 2rem; 
+  border-radius: 8px; 
+  font-weight: 700;
+  font-size: 0.95rem; 
+  cursor: pointer; 
+  text-decoration: none; 
+  border: none;
+  transition: all 0.25s;
+}
+
+.download-btn.available { 
+  background: var(--gold); 
+  color: var(--ink); 
+}
+
+.download-btn.available:hover { 
+  background: var(--gold-light); 
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(201,168,76,0.3);
+}
+
+.download-btn.unavailable {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  border: 2px dashed rgba(255,255,255,0.2);
+  cursor: not-allowed;
+  backdrop-filter: blur(4px);
+}
+
+.download-btn.unavailable:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.unavail-note { 
+  font-size: 0.82rem; 
+  color: rgba(255,255,255,0.55); 
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+  
   footer {
     background: #0a0908; color: var(--muted);
     text-align: center; padding: 2.5rem 5vw;
@@ -561,43 +651,59 @@
   }
   .photo-viewer-close:hover { background: rgba(245,240,232,0.3); }
 
+  /* ── PROFILE PHOTO FRAME - CLEAN & PROFESSIONAL ── */
   .profile-photo-frame {
-    width: 140px; height: 140px; border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
     border: 4px solid var(--gold);
     box-shadow: 0 6px 32px rgba(201,168,76,0.35);
     margin: 0 auto 2rem;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--rust) 100%);
+    background: var(--cream);
+    flex-shrink: 0;
   }
+  
   .profile-photo-frame .fallback-avatar {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
+    width: 100%;
+    height: 100%;
+    display: none; /* Sijaificha kabisa, itaonekana tu ikiwa picha haipo */
+    align-items: center;
+    justify-content: center;
     font-family: 'Playfair Display', serif;
-    font-size: 3.5rem; font-weight: 900;
+    font-size: 3.5rem;
+    font-weight: 900;
     color: white;
     text-shadow: 0 2px 12px rgba(0,0,0,0.2);
     background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--rust) 100%);
   }
+  
+  .profile-photo-frame .fallback-avatar.visible {
+    display: flex;
+  }
+
   #spinPhoto {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
     border-radius: 50%;
     opacity: 0;
     filter: blur(6px);
-    transform: scale(0.9);
-    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: scale(0.92);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
+                filter 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
+  
   #spinPhoto.photo-revealed {
     opacity: 1;
     filter: blur(0);
     transform: scale(1);
   }
+  
   #spinPhoto.photo-error {
-    display: none;
-  }
-  .profile-photo-frame .fallback-avatar.hidden {
     display: none;
   }
 
@@ -636,7 +742,7 @@
 <section id="hero">
   <div class="profile-photo-frame" id="profileFrame">
     <div class="fallback-avatar" id="fallbackAvatar">AB</div>
-    <img src="photo4.png" alt="Ashiruna" id="spinPhoto" onerror="handlePhotoError()"/>
+    <img src="photo4.png" alt="Ashiruna Bashiru Lutachuzibwa" id="spinPhoto" onerror="handlePhotoError()"/>
   </div>
   <p class="hero-welcome">👋 Welcome to my Professional Portfolio</p>
   <h1 class="hero-name">Ashiruna<br/><span>B. Lutachuzibwa</span></h1>
@@ -1010,7 +1116,7 @@ function handlePhotoError() {
   const img = document.getElementById('spinPhoto');
   const fallback = document.getElementById('fallbackAvatar');
   img.classList.add('photo-error');
-  fallback.classList.remove('hidden');
+  fallback.classList.add('visible');
 }
 
 // ── CONFIGURATION ──
@@ -1324,6 +1430,7 @@ setInterval(() => {
 // ── PROFILE PHOTO REVEAL ──
 $(window).on('load', function () {
   const img = document.getElementById('spinPhoto');
+  // Only add photo-revealed if image exists and no error
   if (!img.classList.contains('photo-error')) {
     img.classList.add('photo-revealed');
   }
